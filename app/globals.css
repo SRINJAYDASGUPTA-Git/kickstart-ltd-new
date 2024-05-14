@@ -73,4 +73,13 @@
     body {
       @apply bg-background text-foreground;
     }
+    cl-providerIcon__github{
+      filter: invert(1);
+    }
+    .cl-socialButtonsProviderIcon__github{
+      filter: invert(1);
+    }    
+    .cl-card{
+      @apply bg-[#191616]
+    }
   }

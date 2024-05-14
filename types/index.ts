@@ -10,3 +10,16 @@ export interface User{
     type: 'student'|'institute'|'enterprise';
     imageUrl:string | '/Default_pfp.jpg';
 }
+
+export interface Project{
+    Category: string;
+    Hashtags: string[];
+    Owner: string;
+    Techlang: string;
+    projectID: string;
+    title: string;
+    thumbnailurl: string;
+    description?: string;
+    yturl?: string;
+    
+}
