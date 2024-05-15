@@ -20,7 +20,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
-import { classData, onboardingFormSchema } from "@/constants";
+import { experience } from "@/constants";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -41,6 +41,13 @@ const Onboarding = () => {
   const title = "Tell us about Yourself";
   const subtitle =
     "Let's get to know you! Share a few details, and let's start your math journey together!";
+  const onboardingFormSchema = z.object({
+    fullName: z.string().min(1, { message: "Full Name is required" }),
+    email: z.string().email({ message: "Invalid email address" }),
+    phoneNumber: z.string().min(1, { message: "Phone Number is required" }),
+    school: z.string().min(1, { message: "School is required" }),
+    std: z.string().min(1, { message: "Class is required" }),
+  });
   const form = useForm<z.infer<typeof onboardingFormSchema>>({
     resolver: zodResolver(onboardingFormSchema),
     defaultValues: {
@@ -156,9 +163,9 @@ const Onboarding = () => {
                           )}
                         >
                           {field.value
-                            ? classData.find(
-                                (classD) => classD.title === field.value
-                              )?.title
+                            ? experience.find(
+                                (classD) => classD === field.value
+                              )
                             : "Select Class"}
                           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
@@ -173,19 +180,19 @@ const Onboarding = () => {
                         <CommandList>
                           <CommandEmpty>No framework found.</CommandEmpty>
                           <CommandGroup>
-                            {classData.map((classD) => (
+                            {experience.map((classD, index) => (
                               <CommandItem
-                                value={classD.title}
-                                key={classD.id}
+                                value={classD}
+                                key={index}
                                 onSelect={() => {
-                                  form.setValue("std", classD.title);
+                                  form.setValue("std", classD);
                                 }}
                               >
-                                {classD.title}
+                                {classD}
                                 <Check
                                   className={cn(
                                     "ml-auto h-4 w-4",
-                                    classD.title === field.value
+                                    classD === field.value
                                       ? "opacity-100"
                                       : "opacity-0"
                                   )}
@@ -205,15 +212,6 @@ const Onboarding = () => {
           </form>
         </Form>
         {/* Image */}
-        <section className="hidden md:w-[35%] md:block">
-          <Image
-            src="/onboarding-img.png"
-            alt="Onboarding"
-            width={500}
-            height={500}
-            className="w-full"
-          />
-        </section>
       </div>
     </div>
   );
